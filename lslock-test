@@ -1,0 +1,8 @@
+#!/bin/bash
+
+flock /tmp/lslock-test/test1.lock sleep 5 &
+flock /tmp/lslock-test/test2.lock sleep 5 &
+flock /tmp/lslock-test/test3.lock sleep 5 &
+flock /tmp/lslock-test/test4.lock sleep 5 &
+
+./lslock /tmp/lslock-test

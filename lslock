@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+if ARGV.length < 1
+  STDERR.puts("Missing lock dir argumenti. Exiting.")
+  exit 1
+end
+
+lock_dir = ARGV[0]
+
+# First get a map of our locks
+locks=File.open("/proc/locks").read
+inode_map = {}
+locks.each_line do |lock|
+  lock_info=lock.split
+  pid=lock_info[4]
+  inode=lock_info[5].split(":")[2].to_s
+  inode_map[inode] = pid.to_s
+end
+
+# Next list the lock files and its pids
+
+Dir.glob("#{lock_dir}/*").each do |lock_file|
+  pid = inode_map[File.stat(lock_file).ino.to_s]
+  puts "#{pid} #{lock_file}" unless pid.nil?
+end
