@@ -5,6 +5,6 @@ You must have ruby installed
 
 Usage:
 
-    lslock *lock-directory-path*
+    lslock lock-directory-path
 
 
